@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KBRAIN.Api/KBRAIN.Api.csproj" />
+    <Project Path="src/KBRAIN.Application/KBRAIN.Application.csproj" />
+    <Project Path="src/KBRAIN.Domain/KBRAIN.Domain.csproj" />
+    <Project Path="src/KBRAIN.Infrastructure/KBRAIN.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/KBRAIN.Application.Tests/KBRAIN.Application.Tests.csproj" />
+  </Folder>
+</Solution>
