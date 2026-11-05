@@ -1,4 +1,6 @@
+using KBRAIN.Api.Contracts;
 using KBRAIN.Application;
+using KBRAIN.Application.Chat;
 using KBRAIN.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.MapPost("/api/chat", async (AskRequest request, ChatService chatService, CancellationToken cancellationToken) =>
+{
+    var answer = await chatService.AskAsync(request.Question, cancellationToken);
+    return TypedResults.Ok(new AskResponse(answer));
+});
 
 app.Run();

@@ -19,3 +19,11 @@ Content-Type: application/json
     }
   ]
 }
+
+###
+POST https://localhost:7147/api/chat
+Content-Type: application/json
+
+{
+  "question": "Który mamy rok?"
+}
