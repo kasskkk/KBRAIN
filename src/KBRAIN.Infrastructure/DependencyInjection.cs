@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OllamaSharp;
+using OllamaSharp.Models.Chat;
 
 namespace KBRAIN.Infrastructure
 {
@@ -21,7 +22,26 @@ namespace KBRAIN.Infrastructure
             services.AddSingleton<IChatClient>(serviceProvider =>
             {
                 var options = serviceProvider.GetRequiredService<IOptions<OllamaOptions>>().Value;
-                return new OllamaApiClient(new Uri(options.EndPoint), options.ModelName);
+
+                var client = new HttpClient()
+                {
+                    BaseAddress = new Uri(options.EndPoint),
+                    Timeout = TimeSpan.FromMinutes(options.TimeoutMinutes)
+                };
+
+
+                var ollamaClient = new OllamaApiClient(client, options.ModelName);
+
+                return new ChatClientBuilder(ollamaClient)
+                    .ConfigureOptions(chatOptions =>
+                    {
+                        chatOptions.AdditionalProperties ??= new();
+
+                        chatOptions.AdditionalProperties["think"] = options.Think;
+
+                        chatOptions.AdditionalProperties["num_ctx"] = options.ContextSize;
+                    })
+                    .Build();
             });
 
             return services;
