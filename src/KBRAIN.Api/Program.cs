@@ -29,4 +29,10 @@ app.MapPost("/api/chat", async (AskRequest request, ChatService chatService, Can
     return TypedResults.Ok(new AskResponse(answer));
 });
 
+app.MapPost("/api/chat/stream", (AskRequest request, ChatService chatService, CancellationToken cancellationToken) =>
+{
+    var answer = chatService.StreamAsync(request.Question, cancellationToken);
+    return TypedResults.ServerSentEvents(answer);
+});
+
 app.Run();
