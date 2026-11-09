@@ -1,3 +1,13 @@
-{
-
-}
+[
+  {
+    "id": "rok-001",
+    "question": "Który mamy rok?",
+    "mode": "Fakty",
+    "expected": "Podaje aktualny rok z daty w prompcie systemowym, nie rok z treningu.",
+    "mustContain": [ "{currentYear}" ],
+    "mustNotContain": [ "2024", "symulac" ],
+    "expectedSources": [],
+    "note": "Model raz uznał datę z promptu za symulację i odpowiedział 2024.",
+    "added": "2026-11-06"
+  }
+]
