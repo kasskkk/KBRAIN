@@ -1,4 +1,6 @@
 ﻿using KBRAIN.Infrastructure.Ai;
+using KBRAIN.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,21 @@ namespace KBRAIN.Infrastructure
         this IServiceCollection services,
         IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("Default");
+
+            if (string.IsNullOrWhiteSpace(connectionString) || connectionString.Contains("CHANGE_ME", StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    "Missing or unconfigured connection string 'Default' (replace 'CHANGE_ME' with your local password).");
+            }
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options
+                    .UseNpgsql(connectionString)
+                    .UseSnakeCaseNamingConvention();
+            });
+
             services.AddOptions<OllamaOptions>()
                 .Bind(configuration.GetSection(OllamaOptions.SectionName))
                 .ValidateDataAnnotations()
