@@ -1,5 +1,7 @@
-﻿using KBRAIN.Infrastructure.Ai;
+﻿using KBRAIN.Application.Tiles;
+using KBRAIN.Infrastructure.Ai;
 using KBRAIN.Infrastructure.Persistence;
+using KBRAIN.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +31,8 @@ namespace KBRAIN.Infrastructure
                     .UseNpgsql(connectionString)
                     .UseSnakeCaseNamingConvention();
             });
+
+            services.AddScoped<IKnowledgeTileRepository, KnowledgeTileRepository>();
 
             services.AddOptions<OllamaOptions>()
                 .Bind(configuration.GetSection(OllamaOptions.SectionName))
