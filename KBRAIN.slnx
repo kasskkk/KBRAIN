@@ -6,6 +6,7 @@
     <Project Path="src/KBRAIN.Infrastructure/KBRAIN.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="KBRAIN.Domain.Tests/KBRAIN.Domain.Tests.csproj" Id="dd5946f6-8982-492a-8b9b-45690ef80c7c" />
     <Project Path="tests/KBRAIN.Application.Tests/KBRAIN.Application.Tests.csproj" />
   </Folder>
 </Solution>

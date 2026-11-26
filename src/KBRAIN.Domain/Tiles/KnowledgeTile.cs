@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KBRAIN.Domain.Tiles
+﻿namespace KBRAIN.Domain.Tiles
 {
     public class KnowledgeTile
     {
@@ -10,11 +6,10 @@ namespace KBRAIN.Domain.Tiles
         public string Title { get; private set; } = string.Empty;
         public string Content { get; private set; } = string.Empty;
         public bool IsPinned { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-        public DateTime LastUpdatedAt { get; private set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; private set; }
+        public DateTime LastUpdatedAt { get; private set; }
 
         private KnowledgeTile() { }
-
 
         public static KnowledgeTile Create(string title, string content)
         {
@@ -27,7 +22,7 @@ namespace KBRAIN.Domain.Tiles
                 Id = Guid.CreateVersion7(),
                 Title = title,
                 Content = content,
-                IsPinned = true,
+                IsPinned = false,
                 CreatedAt = now,
                 LastUpdatedAt = now,
             };
@@ -49,23 +44,25 @@ namespace KBRAIN.Domain.Tiles
             IsPinned = true;
             LastUpdatedAt = DateTime.UtcNow;
         }
-        private static void Validate(string title, string content)
-        {
-            if (string.IsNullOrEmpty(title))
-            {
-                throw new ArgumentNullException("Title cannot be empty or whitespace", nameof(title));
-            }
 
-            if (string.IsNullOrEmpty(content))
-            {
-                throw new ArgumentNullException("Content cannot be empty or whitespace", nameof(content));
-            }
-        }
-
-        public void UnPin()
+        public void Unpin()
         {
             IsPinned = false;
             LastUpdatedAt = DateTime.UtcNow;
         }
+
+        private static void Validate(string title, string content)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title cannot be empty or whitespace", nameof(title));
+            }
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentException("Content cannot be empty or whitespace", nameof(content));
+            }
+        }
+
     }
 }
